@@ -1,9 +1,12 @@
 package main
 
 import (
+	"time"
 	"fmt"
 	"os"
 	"strings"
+	"math/rand"
+	
 )
 
 // create a new type of deck
@@ -28,7 +31,7 @@ func newDeck() Deck {
 
 	for _, suit := range cardSuits {
 		for _, value := range cardValues {
-			cards = append(cards, suit+" of "+value)
+			cards = append(cards, value+" of "+suit)
 		}
 	}
 	return cards
@@ -45,4 +48,25 @@ func (d Deck) saveToFile(filename string) error {
 
 func newDeckFromFile(filename string) Deck {
 	 bs, err :=  os.ReadFile(filename)
-}
+	 if err != nil {
+		// log the error
+		fmt.Println("Error: ", err)
+		// log the error and quit the program entirely 
+		os.Exit(1)
+	 } 
+	 
+	 s :=  strings.Split(string(bs), ",")
+	 
+	 return Deck(s)
+	}
+
+func (d Deck) shuffle() {
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+	
+	for i := range d {
+		newPosition := r.Intn(len(d) - 1)
+		d[i], d[newPosition] = d[newPosition], d[i]
+		}
+	}
+	
