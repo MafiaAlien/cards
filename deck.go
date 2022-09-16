@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+)
 
 // create a new type of deck
 // which is a slice of strings
@@ -8,9 +11,13 @@ import "fmt"
 type Deck []string
 
 func (d Deck) print() {
-	for _, card := range d {
-		fmt.Println(card)
+	for i, card := range d {
+		fmt.Println(i, card)
 	}
+}
+
+func deal(d Deck, handSize int) (Deck, Deck) {
+	return d[:handSize], d[handSize:]
 }
 
 func newDeck() Deck {
@@ -27,6 +34,4 @@ func newDeck() Deck {
 
 }
 
-func (d Deck) shuffle() {
-
-}
+func 
